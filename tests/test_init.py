@@ -138,6 +138,9 @@ async def test_restart_uses_cache_and_appends_new_bills(
         freezer.tick(timedelta(days=15, minutes=1))
         async_fire_time_changed(hass)
         await hass.async_block_till_done()
+        # 更新里有一步在记录器线程上（查最后一行统计），只等主循环不够，要把记录器也等完
+        await async_wait_recording_done(hass)
+        await hass.async_block_till_done()
     await async_wait_recording_done(hass)
     assert second.bills.await_count == 1
     water = await _monthly(hass, WATER_ID)

@@ -6,10 +6,10 @@
   "dependencies": [
     "recorder"
   ],
-  "documentation": "https://github.com/ScienceHe/ha-pudong-water",
+  "documentation": "https://github.com/HomeWithApple/ha-pudong-water",
   "integration_type": "service",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/ScienceHe/ha-pudong-water/issues",
+  "issue_tracker": "https://github.com/HomeWithApple/ha-pudong-water/issues",
   "requirements": [],
-  "version": "0.1.0"
+  "version": "0.1.1"
 }

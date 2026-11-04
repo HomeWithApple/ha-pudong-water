@@ -15,7 +15,7 @@
 
 Home Assistant 2026.2 或更新。
 
-- **Marketplace / HACS**：添加自定义仓库 `https://github.com/ScienceHe/ha-pudong-water`，类别「集成」，下载。
+- **Marketplace / HACS**：添加自定义仓库 `https://github.com/HomeWithApple/ha-pudong-water`，类别「集成」，下载。
 - **手动**：把 `custom_components/pudong_water/` 放到 HA 配置目录的 `custom_components/` 下，重启。
 
 ## 配置
@@ -40,6 +40,7 @@ Home Assistant 2026.2 或更新。
 
 ## 更新记录
 
+- **0.1.1**：GitHub 账号改名（ScienceHe → HomeWithApple），文档、问题反馈与安装地址改为新地址；版权署名改为 matter。功能没有变化。旧地址会自动跳转，已装的不用重装。
 - **0.1.0**：第一版。
 
 ## 开发
