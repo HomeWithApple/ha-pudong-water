@@ -6,6 +6,8 @@ from custom_components.pudong_water.api import start_month
 from custom_components.pudong_water.parse import (
     bill_history,
     cost_points,
+    extra_fees,
+    year_cost,
     latest,
     parse_bills,
     to_date,
@@ -50,3 +52,14 @@ def test_history_has_no_name_or_address():
 def test_start_month():
     assert start_month(date(2026, 11, 5)) == "2025-10"
     assert start_month(date(2026, 1, 15)) == "2024-12"
+
+
+def test_year_cost_and_extra_fees():
+    raws = [bill(2025, 11, "2025-11-05", "2026-01-06", "780", "800", 20, 46.6)] + BILLS
+    y = year_cost(parse_bills(raws))
+    assert y["year"] == 2026 and y["periods"] == 4
+    assert y["cost"] == round(46.6 + 41.94 + 51.26 + 55.92, 2)
+    assert y["water"] == 84.0
+    assert y["unit_price"] == round(y["cost"] / 84.0, 3)
+    b = parse_bills([bill(2026, 9, "2026-09-05", "2026-11-04", "1", "2", 1, 5.0, GARBAGEFEE="3", LATEFEES="0")])[0]
+    assert extra_fees(b) == {"垃圾费": 3.0}

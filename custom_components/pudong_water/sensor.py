@@ -19,7 +19,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, MANUFACTURER
 from .coordinator import PudongWaterConfigEntry, PudongWaterCoordinator, WaterData
-from .parse import WaterBill, bill_history, latest
+from .parse import WaterBill, bill_history, extra_fees, latest, year_cost
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -55,6 +55,16 @@ SENSORS: tuple[WaterSensorDescription, ...] = (
             "污水费": b.sewage_fee,
             "水价": b.water_price,
             "污水价": b.sewage_price,
+        } | extra_fees(b),
+    ),
+    WaterSensorDescription(
+        key="year_cost",
+        translation_key="year_cost",
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement="CNY",
+        value_fn=lambda b: None,  # 由 WaterSensor 用全部账单算
+        attrs_fn=lambda d, b: (y := year_cost(d.bills)) and {
+            "年份": y["year"], "今年用水量": y["water"], "期数": y["periods"], "平均单价（元/立方，含污水）": y["unit_price"],
         },
     ),
     WaterSensorDescription(
@@ -139,7 +149,12 @@ class WaterSensor(_Base):
     @property
     def native_value(self) -> Any:
         bill = self._bill
-        return self.entity_description.value_fn(bill) if bill else None
+        if bill is None:
+            return None
+        if self.entity_description.key == "year_cost":
+            y = year_cost(self.coordinator.data.bills)
+            return y and y["cost"]
+        return self.entity_description.value_fn(bill)
 
     @property
     def extra_state_attributes(self) -> dict[str, Any] | None:

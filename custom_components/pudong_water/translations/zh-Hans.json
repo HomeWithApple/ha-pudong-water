@@ -61,6 +61,9 @@
       },
       "last_update": {
         "name": "最近取数时间"
+      },
+      "year_cost": {
+        "name": "今年水费"
       }
     }
   }

@@ -61,6 +61,9 @@ class WaterBill:
     paid: float | None
     pay_time: str | None
     balance: float | None
+    garbage_fee: float | None = None
+    late_fee: float | None = None
+    other_fee: float | None = None
 
     @property
     def ym(self) -> str:
@@ -85,6 +88,9 @@ def parse_bill(raw: dict[str, Any]) -> WaterBill:
         paid=to_float(raw.get("FACTFEE")),
         pay_time=_text(raw.get("PAYTIME")),
         balance=to_float(raw.get("NOWLEFT")),
+        garbage_fee=to_float(raw.get("GARBAGEFEE")),
+        late_fee=to_float(raw.get("LATEFEES")),
+        other_fee=to_float(raw.get("OTHERFEE")),
     )
 
 
@@ -129,6 +135,30 @@ def water_points(bills, after=None, start_sum=0.0):
 
 def cost_points(bills, after=None, start_sum=0.0):
     return cumulative_points(bills, lambda b: b.amount, after, start_sum)
+
+
+def year_cost(bills: list[WaterBill]) -> dict[str, Any] | None:
+    """最新一期账单所在自然年（按账单年月）的累计水费与用水量。接口只给约一年，所以只算今年。"""
+    if not bills:
+        return None
+    year = bills[-1].year
+    this = [b for b in bills if b.year == year]
+    water = sum(b.water or 0 for b in this)
+    cost = sum(b.amount or 0 for b in this)
+    return {
+        "year": year,
+        "cost": round(cost, 2),
+        "water": round(water, 2),
+        "periods": len(this),
+        "unit_price": round(cost / water, 3) if water else None,
+    }
+
+
+def extra_fees(bill: WaterBill | None) -> dict[str, Any]:
+    """水费、污水费之外的费用项，不为 0 才列。"""
+    if bill is None:
+        return {}
+    return {k: v for k, v in (("垃圾费", bill.garbage_fee), ("滞纳金", bill.late_fee), ("其他费用", bill.other_fee)) if v}
 
 
 def bill_history(bills: list[WaterBill]) -> list[dict[str, Any]]:

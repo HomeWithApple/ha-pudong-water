@@ -100,6 +100,8 @@ async def test_sensors_statistics_and_privacy(hass: HomeAssistant) -> None:
     assert _entity(hass, "next_read_date").state == "2026-09-06"
     assert _entity(hass, "balance").state == "12.5"
     assert len(_entity(hass, "last_water").attributes["近期账单"]) == 4
+    assert _entity(hass, "year_cost").state == str(round(46.6 + 41.94 + 51.26 + 55.92, 2))
+    assert _entity(hass, "year_cost").attributes["今年用水量"] == 84.0
 
     for state in hass.states.async_all("sensor"):
         assert "样例" not in str(state.attributes) and "样例" not in state.state
