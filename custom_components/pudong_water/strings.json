@@ -1,0 +1,67 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Pudong Veolia Water",
+        "description": "Enter the account number (销根号) on your water bill. Adding performs one real bill query.\n\nNote: this endpoint returns bills for anyone who knows the account number; keep it private.",
+        "data": {
+          "cid": "Account number"
+        }
+      }
+    },
+    "error": {
+      "invalid_cid": "Account number must be 5–20 letters or digits",
+      "invalid_account": "Account not recognised (wrong number, or the API changed)",
+      "cannot_connect": "Cannot reach Pudong Veolia",
+      "no_bills": "No bills found for this account",
+      "unknown": "Unexpected error, see the log"
+    },
+    "abort": {
+      "already_configured": "This account is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pudong Veolia Water options",
+        "data": {
+          "scan_interval_days": "Fetch every N days"
+        },
+        "data_description": {
+          "scan_interval_days": "Meters are read every two months. Restarting HA does not query again; use update entity to refresh now."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "last_water": {
+        "name": "Last bill water"
+      },
+      "last_sewage": {
+        "name": "Last bill sewage"
+      },
+      "last_amount": {
+        "name": "Last bill amount"
+      },
+      "meter_reading": {
+        "name": "Meter reading"
+      },
+      "last_read_date": {
+        "name": "Last read date"
+      },
+      "next_read_date": {
+        "name": "Next read date"
+      },
+      "balance": {
+        "name": "Account balance"
+      },
+      "last_paid": {
+        "name": "Last payment"
+      },
+      "last_update": {
+        "name": "Last fetched"
+      }
+    }
+  }
+}

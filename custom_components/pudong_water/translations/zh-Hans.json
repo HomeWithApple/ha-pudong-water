@@ -1,0 +1,67 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "浦东威立雅水费",
+        "description": "填水费账单上的销根号（户号）。在「浦东威立雅」公众号里绑定过的那个号码就是。添加时会真去查一次账单。\n\n注意：这个接口只凭户号就能查账单，户号相当于查看你家水费的钥匙，不要随便给别人。",
+        "data": {
+          "cid": "销根号（户号）"
+        }
+      }
+    },
+    "error": {
+      "invalid_cid": "户号应为 5–20 位数字或字母",
+      "invalid_account": "接口不认这个户号（户号不对，或接口改了）",
+      "cannot_connect": "连不上浦东威立雅的接口",
+      "no_bills": "这个户号没有查到账单",
+      "unknown": "意外错误，请看日志"
+    },
+    "abort": {
+      "already_configured": "这个户号已经添加过了"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "浦东威立雅水费选项",
+        "data": {
+          "scan_interval_days": "多少天查一次"
+        },
+        "data_description": {
+          "scan_interval_days": "两个月抄一次表，不必勤查。HA 重启不会触发查询；想马上更新可在实体页面手动更新。"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "last_water": {
+        "name": "本期用水量"
+      },
+      "last_sewage": {
+        "name": "本期污水量"
+      },
+      "last_amount": {
+        "name": "本期水费合计"
+      },
+      "meter_reading": {
+        "name": "水表读数"
+      },
+      "last_read_date": {
+        "name": "本期抄表日"
+      },
+      "next_read_date": {
+        "name": "下次抄表日"
+      },
+      "balance": {
+        "name": "账户余额"
+      },
+      "last_paid": {
+        "name": "本期实缴"
+      },
+      "last_update": {
+        "name": "最近取数时间"
+      }
+    }
+  }
+}

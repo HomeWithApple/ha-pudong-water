@@ -1,0 +1,15 @@
+{
+  "domain": "pudong_water",
+  "name": "浦东威立雅水费",
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": [
+    "recorder"
+  ],
+  "documentation": "https://github.com/ScienceHe/ha-pudong-water",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/ScienceHe/ha-pudong-water/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
